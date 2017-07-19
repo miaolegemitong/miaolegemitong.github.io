@@ -146,7 +146,10 @@
     
   </div>
   <div class="post-page-content">
-  <p><strong>大数据环境搭建一直是令初学者头疼的事情，提高了大数据学习入门的成本。环境搭建主要有单机模式、伪分布式模式、完全分布式模式。三种环境搭建成本高，换机器的话还要重新配置，不仅麻烦，还容易出错。Docker是一种容器，能够在不同的机器上很方便的运行统一的环境。于是米叔基于kiwenlau/hadoop:1.0（一个已经开发好的完全分布式Hadoop in Docker环境）开发了运行Hadoop+Spark的分布式Docker镜像，hadoop配置请参考<a href="https://github.com/kiwenlau/hadoop-cluster-docker" target="_blank" rel="external">hadoop-cluster-docker</a>。</strong><br><br></p>
+  <blockquote>
+<p>大数据环境搭建一直是令初学者头疼的事情，提高了大数据学习入门的成本。<br>环境搭建主要有单机模式、伪分布式模式、完全分布式模式。<br>三种环境搭建成本高，换机器的话还要重新配置，不仅麻烦，还容易出错。<br>Docker是一种容器，能够在不同的机器上很方便的运行统一的环境。<br>于是米叔基于kiwenlau/hadoop:1.0（一个已经开发好的完全分布式Hadoop in Docker环境）开发了运行Hadoop+Spark完全分布式部署的Docker镜像。<br>Hadoop配置请参考<a href="https://github.com/kiwenlau/hadoop-cluster-docker" target="_blank" rel="external">hadoop-cluster-docker</a>。</p>
+</blockquote>
+<p><br></p>
 <h5 id="3节点集群"><a href="#3节点集群" class="headerlink" title="3节点集群"></a>3节点集群</h5><p><br></p>
 <h6 id="拉取Docker镜像"><a href="#拉取Docker镜像" class="headerlink" title="拉取Docker镜像"></a>拉取Docker镜像</h6><pre><code>docker pull miaolegemitong/spark:1.0
 </code></pre><p><br></p>
@@ -154,21 +157,23 @@
 </code></pre><p><br></p>
 <h6 id="创建网络"><a href="#创建网络" class="headerlink" title="创建网络"></a>创建网络</h6><pre><code>sudo docker network create --driver=bridge hadoop
 </code></pre><p><br></p>
-<h6 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h6><p><strong>这里需要把想要运行的jar包的路径作为第一个参数传递，之后这个路径会被挂载到master容器的/root/jars目录。</strong></p>
+<h6 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h6><p>这里需要把<strong>想要运行的jar包</strong>的路径作为第一个参数传递，之后这个路径会被挂载到master容器的<strong>/root/jars</strong>目录。</p>
 <pre><code>cd spark-docker
 sudo ./start-container.sh &lt;your jars path&gt;
-</code></pre><p><br><br><strong>output:</strong></p>
+</code></pre><p>output:</p>
 <pre><code>start master container...
 start slave1 container...
 start slave2 container...
 root@hadoop-master:~#
-</code></pre><ul>
-<li>启动了1个master、2个slave的hadoop集群</li>
+</code></pre><ol>
+<li>启动了1个master、2个slave的Hadoop集群</li>
 <li>启动了1个master、3个slave(master机器也作为slave使用）的Spark集群</li>
-<li>之后进入hadoop-master容器的/root目录<br><br><h6 id="启动Hadoop"><a href="#启动Hadoop" class="headerlink" title="启动Hadoop"></a>启动Hadoop</h6><pre><code>./start-hadoop.sh
-</code></pre><br><h6 id="运行Hadoop-word-count"><a href="#运行Hadoop-word-count" class="headerlink" title="运行Hadoop word count"></a>运行Hadoop word count</h6><pre><code>./run-wordcount.sh
-</code></pre><br><br><strong>output:</strong></li>
-</ul>
+<li>之后进入hadoop-master容器的/root目录<br><br></li>
+</ol>
+<h6 id="启动Hadoop"><a href="#启动Hadoop" class="headerlink" title="启动Hadoop"></a>启动Hadoop</h6><pre><code>./start-hadoop.sh
+</code></pre><p><br></p>
+<h6 id="运行Hadoop-word-count"><a href="#运行Hadoop-word-count" class="headerlink" title="运行Hadoop word count"></a>运行Hadoop word count</h6><pre><code>./run-wordcount.sh
+</code></pre><p>output:</p>
 <pre><code>input file1.txt:
 Hello Hadoop
 
@@ -183,18 +188,16 @@ Hello    2
 <h6 id="启动Spark"><a href="#启动Spark" class="headerlink" title="启动Spark"></a>启动Spark</h6><pre><code>./start-spark.sh
 </code></pre><p><br></p>
 <h5 id="任意个数节点的集群"><a href="#任意个数节点的集群" class="headerlink" title="任意个数节点的集群"></a>任意个数节点的集群</h5><p><br></p>
-<h6 id="拉取docker镜像，克隆git仓库"><a href="#拉取docker镜像，克隆git仓库" class="headerlink" title="拉取docker镜像，克隆git仓库"></a>拉取docker镜像，克隆git仓库</h6><p><strong>重复3节点集群中的1-3步</strong><br><br></p>
+<h6 id="拉取docker镜像，克隆git仓库"><a href="#拉取docker镜像，克隆git仓库" class="headerlink" title="拉取docker镜像，克隆git仓库"></a>拉取docker镜像，克隆git仓库</h6><p>重复3节点集群中的1-3步<br><br></p>
 <h6 id="重新build-docker镜像"><a href="#重新build-docker镜像" class="headerlink" title="重新build docker镜像"></a>重新build docker镜像</h6><pre><code>./resize-cluster.sh 5
-</code></pre><ul>
+</code></pre><ol>
 <li>指定大于3的参数</li>
 <li>脚本将重写不同的<strong>slaves</strong>文件<br><br></li>
-</ul>
+</ol>
 <h6 id="启动容器-1"><a href="#启动容器-1" class="headerlink" title="启动容器"></a>启动容器</h6><pre><code>sudo ./start-container.sh &lt;your jars path&gt; 5
-</code></pre><ul>
-<li>使用和第2步相同的参数</li>
-</ul>
+</code></pre><p>使用和第2步相同的参数</p>
 <p><br></p>
-<h6 id="启动Hadoop和Spark集群"><a href="#启动Hadoop和Spark集群" class="headerlink" title="启动Hadoop和Spark集群"></a>启动Hadoop和Spark集群</h6><p><strong>和3节点中第5-7步一致</strong></p>
+<h6 id="启动Hadoop和Spark集群"><a href="#启动Hadoop和Spark集群" class="headerlink" title="启动Hadoop和Spark集群"></a>启动Hadoop和Spark集群</h6><p>和3节点中第5-7步一致</p>
 
   </div>
   <!--评论块-->
