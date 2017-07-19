@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  
+  <meta name="keywords" content="网站关键字">
+  <meta name="description" content="网站简介">
+  
+  <title>米叔的博客</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/materialize.min.css">
+    
+      <link rel="stylesheet" href="/css/main.min.css">
+    
+  
+  <style type="text/css">
+      html{
+          font-family: sans-serif;
+          font-weight: 300;
+      }
+      @font-face {
+          font-family: 'Material Icons';
+          font-style: normal;
+          font-weight: 400;
+          src: url(/fonts/MaterialIcons-Regular.eot);
+          src: url(/fonts/MaterialIcons-Regular.woff2) format('woff2'),
+          url(/fonts/MaterialIcons-Regular.woff) format('woff'),
+          url(/fonts/MaterialIcons-Regular.ttf) format('truetype')
+      }
+  </style>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+<body>
+<div id="menu-box"><a href="javascript:void(0)" id="menu" data-activates="slide-out" class="button-collapse menu" ><span class="nav-btn"></span></a></div>
+<div id="menu-outer">
+  <div id="menu-inner">
+      <ul id="slide-out" class="side-nav" >
+    <div class="nav-header"  style="background-image: url(/images/header-bg.png);background-color:#26A69A">
+    <div class="header-box"><img src="/images/header.JPG" ondragstart="return false;"></div>
+    <p>米叔</p>
+    <div class="nav-link">
+        
+        <a href="https://twitter.com/miaolegemitong" target="_blank"> <div class="link-box twitter"></div></a>
+        
+        
+        <a  href="https://github.com/miaolegemitong" target="_blank"><div class="link-box github"></div></a>
+        
+        
+        <a href="mailto:mitong1993@gmail.com"><div class="link-box email"></div></a>
+        
+        
+        <a href="http://weibo.com/miaolgemitong" target="_blank"><div class="link-box weibo"></div></a>
+        
+        
+        <a href="https://www.zhihu.com/people/miaolegemitong" target="_blank"> <div class="link-box zhihu"></div></a>
+        
+    </div>
+    <div class="nav-search">
+        <form id="search-form"> <!-- 搜索框相关 -->
+            <input type="text" id="local-search-input" name="q" results="0" placeholder="搜索..." class="search form-control" autocomplete="off" autocorrect="off"/>
+            <div class="nav-search-img"><i class="material-icons">search</i></div>
+        </form>
+        <div id="local-search-result"></div> <!-- 搜索结果区 -->
+        <p class='no-result'>无搜索结果</p>
+    </div>
+</div>
+    <!--Homepage-->
+
+<li class="nav-list">
+    <a href="/" target="_self">
+        <div class="nav-ico"><i class="material-icons">home</i> </div><p>主页</p>
+    </a>
+</li>
+
+<!--archives-->
+
+<li class="nav-list dropdown-btn">
+    <a  class=""  target="_self">
+        <div class="nav-ico"><i class="material-icons">assignment</i></div><p>归档</p><div class="dropdown-ico"><i class="material-icons">arrow_drop_down</i></div>
+    </a>
+</li>
+
+<ul class="dropdown-menu dropdown" >
+    <li class="nav-dropdown-list">
+        <a class="archive-link" href="/archives/2017/07/">July 2017<span class="archive-count">1</span></a>
+    </li>
+</ul>
+<!--categories-->
+
+<li class="nav-list dropdown-btn">
+    <a   class=""  target="_self">
+        <div class="nav-ico"><i class="material-icons">dashboard</i></div><p>分类</p><div class="dropdown-ico"><i class="material-icons">arrow_drop_down</i></div>
+    </a>
+</li>
+
+<ul class="dropdown-menu dropdown" >
+    <li class="nav-dropdown-list">
+        <a class="category-link" href="/categories/Big-Data/">Big Data<span class="category-count">1</span></a>
+    </li>
+</ul>
+<!--tags-->
+
+<li class="nav-list">
+    <a href="/archives" target="_self">
+        <div class="nav-ico"><i class="material-icons">bookmark</i> </div><p>标签</p>
+    </a>
+</li>
+
+<!--photo-->
+
+<li class="nav-list">
+    <a href="/photo" class="nopjax" target="_self">
+        <div class="nav-ico"><i class="material-icons">insert_photo</i> </div><p>影集</p>
+    </a>
+</li>
+
+<!--friends-->
+
+<li class="nav-list">
+    <a href="/friends" target="_self">
+        <div class="nav-ico"><i class="material-icons">face</i> </div><p>友链</p>
+    </a>
+</li>
+
+<!--about-->
+
+
+</ul>
+
+  </div>
+</div>
+
+<div id="content-outer">
+  <div id="content-inner">
+    
+<article id="post">
+  <div class="post-page-title" style="background-color:#26A69A;background-image:url(/images/spark-docker.png)" >
+  <h2>在Docker中运行Hadoop+Spark集群</h2>
+    
+  <p>作者:米叔 &nbsp&nbsp 发布于:<time datetime="2017-07-18T17:47:26.000Z">
+          2017-07-19
+    </time>
+  </p>
+    
+  </div>
+  <div class="post-page-content">
+  <p><strong>大数据环境搭建一直是令初学者头疼的事情，提高了大数据学习入门的成本。环境搭建主要有单机模式、伪分布式模式、完全分布式模式。三种环境搭建成本高，换机器的话还要重新配置，不仅麻烦，还容易出错。Docker是一种容器，能够在不同的机器上很方便的运行统一的环境。于是米叔基于kiwenlau/hadoop:1.0（一个已经开发好的完全分布式Hadoop in Docker环境）开发了运行Hadoop+Spark的分布式Docker镜像，hadoop配置请参考<a href="https://github.com/kiwenlau/hadoop-cluster-docker" target="_blank" rel="external">hadoop-cluster-docker</a>。</strong><br><br></p>
+<h5 id="3节点集群"><a href="#3节点集群" class="headerlink" title="3节点集群"></a>3节点集群</h5><p><br></p>
+<h6 id="拉取Docker镜像"><a href="#拉取Docker镜像" class="headerlink" title="拉取Docker镜像"></a>拉取Docker镜像</h6><pre><code>docker pull miaolegemitong/spark:1.0
+</code></pre><p><br></p>
+<h6 id="克隆git仓库"><a href="#克隆git仓库" class="headerlink" title="克隆git仓库"></a>克隆git仓库</h6><pre><code>git clone git@github.com:miaolegemitong/spark-docker.git
+</code></pre><p><br></p>
+<h6 id="创建网络"><a href="#创建网络" class="headerlink" title="创建网络"></a>创建网络</h6><pre><code>sudo docker network create --driver=bridge hadoop
+</code></pre><p><br></p>
+<h6 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h6><p><strong>这里需要把想要运行的jar包的路径作为第一个参数传递，之后这个路径会被挂载到master容器的/root/jars目录。</strong></p>
+<pre><code>cd spark-docker
+sudo ./start-container.sh &lt;your jars path&gt;
+</code></pre><p><br><br><strong>output:</strong></p>
+<pre><code>start master container...
+start slave1 container...
+start slave2 container...
+root@hadoop-master:~#
+</code></pre><ul>
+<li>启动了1个master、2个slave的hadoop集群</li>
+<li>启动了1个master、3个slave(master机器也作为slave使用）的Spark集群</li>
+<li>之后进入hadoop-master容器的/root目录<br><br><h6 id="启动Hadoop"><a href="#启动Hadoop" class="headerlink" title="启动Hadoop"></a>启动Hadoop</h6><pre><code>./start-hadoop.sh
+</code></pre><br><h6 id="运行Hadoop-word-count"><a href="#运行Hadoop-word-count" class="headerlink" title="运行Hadoop word count"></a>运行Hadoop word count</h6><pre><code>./run-wordcount.sh
+</code></pre><br><br><strong>output:</strong></li>
+</ul>
+<pre><code>input file1.txt:
+Hello Hadoop
+
+input file2.txt:
+Hello Docker
+
+wordcount output:
+Docker    1
+Hadoop    1
+Hello    2
+</code></pre><p><br></p>
+<h6 id="启动Spark"><a href="#启动Spark" class="headerlink" title="启动Spark"></a>启动Spark</h6><pre><code>./start-spark.sh
+</code></pre><p><br></p>
+<h5 id="任意个数节点的集群"><a href="#任意个数节点的集群" class="headerlink" title="任意个数节点的集群"></a>任意个数节点的集群</h5><p><br></p>
+<h6 id="拉取docker镜像，克隆git仓库"><a href="#拉取docker镜像，克隆git仓库" class="headerlink" title="拉取docker镜像，克隆git仓库"></a>拉取docker镜像，克隆git仓库</h6><p><strong>重复3节点集群中的1-3步</strong><br><br></p>
+<h6 id="重新build-docker镜像"><a href="#重新build-docker镜像" class="headerlink" title="重新build docker镜像"></a>重新build docker镜像</h6><pre><code>./resize-cluster.sh 5
+</code></pre><ul>
+<li>指定大于3的参数</li>
+<li>脚本将重写不同的<strong>slaves</strong>文件<br><br></li>
+</ul>
+<h6 id="启动容器-1"><a href="#启动容器-1" class="headerlink" title="启动容器"></a>启动容器</h6><pre><code>sudo ./start-container.sh &lt;your jars path&gt; 5
+</code></pre><ul>
+<li>使用和第2步相同的参数</li>
+</ul>
+<p><br></p>
+<h6 id="启动Hadoop和Spark集群"><a href="#启动Hadoop和Spark集群" class="headerlink" title="启动Hadoop和Spark集群"></a>启动Hadoop和Spark集群</h6><p><strong>和3节点中第5-7步一致</strong></p>
+
+  </div>
+  <!--评论块-->
+    
+  <div id="disqus_thread" style="padding:30px;text-align: center;border-top:1px solid silver " data-diaque="miaolegemitong.disqus.com"><button style="margin: 0 auto;background-color:#26A69A " class="btn" onclick="disqus()">加载评论(被墙则无法加载)</button></div>
+
+  <script>
+
+      /**
+       *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+       *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+      /*
+       var disqus_config = function () {
+       this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+       this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+       };
+       */
+      function disqus() { // DON'T EDIT BELOW THIS LINE
+          var d = document, s = d.createElement('script'),v = d.createElement('script'),disquUrl=document.getElementById("disqus_thread").dataset.diaque;
+          v.id = 'dsq-count-scr'
+          v.src= '//'+disquUrl+'/count.js';
+          s.src = 'https://'+disquUrl+'/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(v);
+          (d.head || d.body).appendChild(s);
+      }
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+
+</article>
+<nav class="post-nav">
+  <!-- Prev Nav -->
+    
+
+
+  <!-- Next Nav -->
+    
+</nav>
+<div class="post-toc-btn"><i class="material-icons">format_list_numbered</i></div>
+<div class="post-toc-none"><p>(无)</p></div>
+<div class="post-toc-box">
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3节点集群"><span class="post-toc-number">1.</span> <span class="post-toc-text">3节点集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#拉取Docker镜像"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">拉取Docker镜像</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#克隆git仓库"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">克隆git仓库</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#创建网络"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">创建网络</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动容器"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">启动容器</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动Hadoop"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">启动Hadoop</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#运行Hadoop-word-count"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">运行Hadoop word count</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动Spark"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">启动Spark</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#任意个数节点的集群"><span class="post-toc-number">2.</span> <span class="post-toc-text">任意个数节点的集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#拉取docker镜像，克隆git仓库"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">拉取docker镜像，克隆git仓库</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#重新build-docker镜像"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">重新build docker镜像</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动容器-1"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">启动容器</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动Hadoop和Spark集群"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">启动Hadoop和Spark集群</span></a></li></ol></li></ol>
+</div>
+<!--<div class="post-back"><i class="material-icons">arrow_back</i></div>-->
+<script type="text/javascript">
+    menu();
+</script>
+  </div>
+</div>
+<div id="bottom-outer">
+  <div id="bottom-inner">
+    <a  id="top-button" onfocus="this.blur();"><div class="up upinbody" style="background-color:#26A69A"><i class="material-icons material-up">vertical_align_top</i></div></a>
+
+
+<p >Copyright ©  2017  米叔的博客</p>
+<p >Powered by <a href="https://hexo.io/" target="_blank"> Hexo </a> & Theme - <a href="https://github.com/moumao/hexo-theme-Vateral" target="_blank">Vateral</a></p>
+<p style="font-size: 10px" id="footer-times" data-time="7/18/2017 00:00:00"></p>
+<script>
+    var beginTime=document.getElementById("footer-times").dataset.time
+    function show_date_time(){
+        var span=document.getElementById("footer-times")
+        window.setTimeout("show_date_time()", 1000);
+        BirthDay=new Date(beginTime);//初始日期
+        today=new Date();
+        timeold=(today.getTime()-BirthDay.getTime());
+        sectimeold=timeold/1000
+        secondsold=Math.floor(sectimeold);
+        msPerDay=24*60*60*1000
+        e_daysold=timeold/msPerDay
+        daysold=Math.floor(e_daysold);
+        e_hrsold=(e_daysold-daysold)*24;
+        hrsold=Math.floor(e_hrsold);
+        e_minsold=(e_hrsold-hrsold)*60;
+        minsold=Math.floor((e_hrsold-hrsold)*60);
+        seconds=Math.floor((e_minsold-minsold)*60);
+        span.innerHTML="本站已运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+    }
+    show_date_time();
+</script>
+
+  </div>
+</div>
+
+<!--影集界面需要的资源-->
+
+
+
+<!-- scripts list from theme config.yml -->
+
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+<script src="/js/materialize.min.js"></script>
+
+<script src="/js/main.min.js"></script>
+
+
+<script>
+    NProgress.start();
+    NProgress.done();
+    lazy();
+    links();
+    window.onpopstate = menu();
+    //pjax操作
+    $(document).pjax('a:not(.nopjax)', '#content-inner', {fragment:'#content-inner', timeout:8000});
+    $(document).on('pjax:start', NProgress.start).on('pjax:end', NProgress.done)
+        .on('pjax:end', () => {
+            dowmdiv();
+            lazy();
+            toc();
+            links();
+            menu();
+        });
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</body>
+</html>
