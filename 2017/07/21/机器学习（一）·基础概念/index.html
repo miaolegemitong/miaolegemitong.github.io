@@ -136,68 +136,37 @@
   <div id="content-inner">
     
 <article id="post">
-  <div class="post-page-title" style="background-color:#26A69A;background-image:url(/images/spark-docker.png)" >
-  <h2>在Docker中运行Hadoop+Spark集群</h2>
+  <div class="post-page-title" style="background-color:#26A69A;background-image:url(/images/machine-learning.jpeg)" >
+  <h2>机器学习（一）·基础概念</h2>
     
-  <p>作者:米叔 &nbsp&nbsp 发布于:<time datetime="2017-07-18T17:47:26.000Z">
-          2017-07-19
+  <p>作者:米叔 &nbsp&nbsp 发布于:<time datetime="2017-07-20T17:35:37.000Z">
+          2017-07-21
     </time>
   </p>
     
   </div>
   <div class="post-page-content">
   <blockquote>
-<p>大数据环境搭建一直是令初学者头疼的事情，提高了大数据学习入门的成本。<br>环境搭建主要有单机模式、伪分布式模式、完全分布式模式。<br>三种环境搭建成本高，换机器的话还要重新配置，不仅麻烦，还容易出错。<br>Docker是一种容器，能够在不同的机器上很方便的运行统一的环境。<br>于是米叔基于kiwenlau/hadoop:1.0（一个已经开发好的完全分布式Hadoop in Docker环境）开发了运行Hadoop+Spark完全分布式部署的Docker镜像。<br>Hadoop配置请参考<a href="https://github.com/kiwenlau/hadoop-cluster-docker" target="_blank" rel="external">hadoop-cluster-docker</a>。</p>
+<p>机器学习的概念，早在二十世纪五六十年代就被提出。而作为一个单独的领域，在二十世纪九十年代开始繁荣。<br>机器学习算法本身基于大规模数据的统计，而由于缺乏有效的大规模数据存储和处理能力，导致机器学习停滞发展了将近二十年。<br>直到2010年左右，大数据技术开始逐渐成熟，于是机器学习又焕发了无限的活力。<br>作为大数据从业人员的米叔，也打算在这人工智能的时代去感受下机器学习的魅力。<br>目前主要是跟着Cousera上Ng的机器学习课程入门，辅以清华大学出版社李航的《统计学习方法》以及周志华的《机器学习》（西瓜书）来进行学习。<br>特此开一系列的文章，记录自己所学，并与大家分享，欢迎大家指正。<br>第一篇主要总结一下机器学习的基础概念。</p>
 </blockquote>
 <p><br></p>
-<h5 id="3节点集群"><a href="#3节点集群" class="headerlink" title="3节点集群"></a>3节点集群</h5><p><br></p>
-<h6 id="拉取Docker镜像"><a href="#拉取Docker镜像" class="headerlink" title="拉取Docker镜像"></a>拉取Docker镜像</h6><pre><code>docker pull miaolegemitong/spark:1.0
-</code></pre><p><br></p>
-<h6 id="克隆git仓库"><a href="#克隆git仓库" class="headerlink" title="克隆git仓库"></a>克隆git仓库</h6><pre><code>git clone git@github.com:miaolegemitong/spark-docker.git
-</code></pre><p><br></p>
-<h6 id="创建网络"><a href="#创建网络" class="headerlink" title="创建网络"></a>创建网络</h6><pre><code>sudo docker network create --driver=bridge hadoop
-</code></pre><p><br></p>
-<h6 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h6><p>这里需要把<strong>想要运行的jar包</strong>的路径作为第一个参数传递，之后这个路径会被挂载到master容器的<strong>/root/jars</strong>目录。</p>
-<pre><code>cd spark-docker
-sudo ./start-container.sh &lt;your jars path&gt;
-</code></pre><p>output:</p>
-<pre><code>start master container...
-start slave1 container...
-start slave2 container...
-root@hadoop-master:~#
-</code></pre><ol>
-<li>启动了1个master、2个slave的Hadoop集群</li>
-<li>启动了1个master、3个slave(master机器也作为slave使用）的Spark集群</li>
-<li>之后进入hadoop-master容器的/root目录<br><br></li>
-</ol>
-<h6 id="启动Hadoop"><a href="#启动Hadoop" class="headerlink" title="启动Hadoop"></a>启动Hadoop</h6><pre><code>./start-hadoop.sh
-</code></pre><p><br></p>
-<h6 id="运行Hadoop-word-count"><a href="#运行Hadoop-word-count" class="headerlink" title="运行Hadoop word count"></a>运行Hadoop word count</h6><pre><code>./run-wordcount.sh
-</code></pre><p>output:</p>
-<pre><code>input file1.txt:
-Hello Hadoop
-
-input file2.txt:
-Hello Docker
-
-wordcount output:
-Docker    1
-Hadoop    1
-Hello    2
-</code></pre><p><br></p>
-<h6 id="启动Spark"><a href="#启动Spark" class="headerlink" title="启动Spark"></a>启动Spark</h6><pre><code>./start-spark.sh
-</code></pre><p><br></p>
-<h5 id="任意个数节点的集群"><a href="#任意个数节点的集群" class="headerlink" title="任意个数节点的集群"></a>任意个数节点的集群</h5><p><br></p>
-<h6 id="拉取docker镜像，克隆git仓库"><a href="#拉取docker镜像，克隆git仓库" class="headerlink" title="拉取docker镜像，克隆git仓库"></a>拉取docker镜像，克隆git仓库</h6><p>重复3节点集群中的1-3步<br><br></p>
-<h6 id="重新build-docker镜像"><a href="#重新build-docker镜像" class="headerlink" title="重新build docker镜像"></a>重新build docker镜像</h6><pre><code>./resize-cluster.sh 5
-</code></pre><ol>
-<li>指定大于3的参数</li>
-<li>脚本将重写不同的<strong>slaves</strong>文件<br><br></li>
-</ol>
-<h6 id="启动容器-1"><a href="#启动容器-1" class="headerlink" title="启动容器"></a>启动容器</h6><pre><code>sudo ./start-container.sh &lt;your jars path&gt; 5
-</code></pre><p>使用和第2步相同的参数</p>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>人工智能领域的先驱<a href="https://en.wikipedia.org/wiki/Arthur_Samuel" target="_blank" rel="external">Arthur Samuel</a>给机器学习的定义如下：</p>
+<blockquote>
+<p>the field of study that gives computers the ability to learn without being explicitly programmed.<br>给计算机学习的能力，而不用明确地编程。</p>
+</blockquote>
+<p>卡内基梅隆大学计算机科学学院机器学习系主任<a href="http://www.cs.cmu.edu/~tom/" target="_blank" rel="external">Tom Mitchell</a>给了一个更加形式化的定义：</p>
+<blockquote>
+<p>A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.<br>一个程序被认为能从经验E学习，解决任务T，达到性能度量值P。当且仅当，有了经验E后，经过P评判，程序在处理T时的性能有所提升。</p>
+</blockquote>
 <p><br></p>
-<h6 id="启动Hadoop和Spark集群"><a href="#启动Hadoop和Spark集群" class="headerlink" title="启动Hadoop和Spark集群"></a>启动Hadoop和Spark集群</h6><p>和3节点中第5-7步一致</p>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><h5 id="监督学习"><a href="#监督学习" class="headerlink" title="监督学习"></a>监督学习</h5><p>对于给定数据集中的每条数据，都有相应的正确答案。<br>监督学习包括<strong>回归问题</strong>（Regression）和<strong>分类问题</strong>（Classification）。回归问题是指预测一个<strong>连续值</strong>的输出，分类问题是指预测一个<strong>离散值</strong>的输出。</p>
+<p><br></p>
+<h5 id="无监督学习"><a href="#无监督学习" class="headerlink" title="无监督学习"></a>无监督学习</h5><p>根据数据的<strong>特征</strong>和<strong>标签</strong>将同类型的数据进行<strong>聚合</strong>，事先<strong>不知道具体都有什么类别</strong>。</p>
+<p><br></p>
+<h4 id="实现机器学习的步骤"><a href="#实现机器学习的步骤" class="headerlink" title="实现机器学习的步骤"></a>实现机器学习的步骤</h4><ol><br><li>得到一个有限的训练数据集合</li><br><li>确定包含所有可能的模型的假设空间，即学习模型的集合</li><br><li>确定模型选择的准则，即学习的策略</li><br><li>实现求解最优模型的算法，即学习的算法</li><br><li>通过学习方法选择最优模型</li><br><li>利用学习的最优模型对新数据进行预测或分析</li><br></ol>
+
+<p><br></p>
+<h4 id="基本术语"><a href="#基本术语" class="headerlink" title="基本术语"></a>基本术语</h4><ol><br><li><strong>数据集</strong>(data set): 用于训练的所有记录的集合</li><br><li><strong>示例</strong>(instance)、<strong>样本</strong>(sample): 一条记录</li><br><li><strong>属性</strong>(attribute)、<strong>特征</strong>(feature): 反应事件或对象在某方面的表现或性质的事项</li><br><li><strong>属性值</strong>(attribute value): 属性上的取值</li><br><li><strong>属性空间</strong>(attribute space)、<strong>样本空间</strong>(sample space)、<strong>输入空间</strong>: 属性张成的空间</li><br><li><strong>特征向量</strong>(feature vector): 把属性作为坐标轴，则会形成一个空间，每条记录都会找到坐标位置，所以每个点对应一个坐标向量</li><br><li><strong>维数</strong>(dimensionality): 示例的属性的个数</li><br><li><strong>学习</strong>(learning)、<strong>训练</strong>(training): 从数据中学得模型的过程</li><br><li><strong>训练数据</strong>(training data): 训练中使用的数据</li><br><li><strong>训练样本</strong>(training sample): 训练数据中的一个样本</li><br><li><strong>训练集</strong>(training set): 训练样本组成的集合</li><br><li><strong>假设</strong>(hypothesis): 学得模型对应了关于数据的某种潜在的规律</li><br><li><strong>真相</strong>、<strong>真实</strong>(ground-truth): 潜在规律自身</li><br><li><strong>标记</strong>(label): 关于示例结果的信息</li><br><li><strong>样例</strong>(example): 拥有了标记信息的示例</li><br><li><strong>标记空间</strong>(label space)、<strong>输出空间</strong>: 所有标记的集合</li><br><li><strong>分类</strong>(classification): 预测离散值的学习任务</li><br><li><strong>回归</strong>(regression): 预测连续值得学习任务</li><br><li><strong>测试</strong>(testing): 使用模型进行预测的过程</li><br><li><strong>测试样本</strong>(testing sample): 被预测的样本</li><br><li><strong>聚类</strong>(clustering): 将训练集中的记录分组的学习任务</li><br><li><strong>簇</strong>(cluster): 聚类中的每个组</li><br><li><strong>监督学习</strong>(supervised learning)</li><br><li><strong>无监督学习</strong>(unsupervised learning)</li><br><li><strong>泛化</strong>(generalization)： 学得模型适用于新样本</li><br></ol><br><br><br>#### 符号表示<br><ol><br><li><strong>(x, y)</strong> 表示 一个训练样本</li><br><li><strong>(x<sup>(i)</sup>, y<sup>(i)</sup>)</strong> 表示 第i个训练样本</li><br><li>数据集 <strong>D = {(x<sup>(1)</sup>, y<sup>(1)</sup>), (x<sup>(1)</sup>, y<sup>(1)</sup>), …, (x<sup>(m)</sup>, y<sup>(m)</sup>)}</strong></li><br><li><strong>m</strong> 表示 训练样本的个数</li><br><li>第i个特征向量 <strong>x<sup>(i)</sup> = (x<sup>(i)</sup><sub>1</sub>, x<sup>(i)</sup><sub>2</sub>, …, x<sup>(i)</sup><sub>n</sub>)<sup>T</sup></strong> 其中下标表示第几个特征值</li><br><li><strong>n</strong> 表示特征的个数</li><br></ol>
 
   </div>
   <!--评论块-->
@@ -232,19 +201,19 @@ Hello    2
 <nav class="post-nav">
   <!-- Prev Nav -->
     
-  <a href="/2017/07/21/机器学习（一）·基础概念/" id="post_nav-newer" class="post-nav-content prev-content">
-      新篇
-  </a>
-    
 
 
   <!-- Next Nav -->
+    
+  <a href="/2017/07/19/在Docker中运行Hadoop-Spark集群/" id="post_nav-older" class="post-nav-content next-content">
+      旧篇
+  </a>
     
 </nav>
 <div class="post-toc-btn"><i class="material-icons">format_list_numbered</i></div>
 <div class="post-toc-none"><p>(无)</p></div>
 <div class="post-toc-box">
-    <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3节点集群"><span class="post-toc-number">1.</span> <span class="post-toc-text">3节点集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#拉取Docker镜像"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">拉取Docker镜像</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#克隆git仓库"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">克隆git仓库</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#创建网络"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">创建网络</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动容器"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">启动容器</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动Hadoop"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">启动Hadoop</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#运行Hadoop-word-count"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">运行Hadoop word count</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动Spark"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">启动Spark</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#任意个数节点的集群"><span class="post-toc-number">2.</span> <span class="post-toc-text">任意个数节点的集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#拉取docker镜像，克隆git仓库"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">拉取docker镜像，克隆git仓库</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#重新build-docker镜像"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">重新build docker镜像</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动容器-1"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">启动容器</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动Hadoop和Spark集群"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">启动Hadoop和Spark集群</span></a></li></ol></li></ol>
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#定义"><span class="post-toc-number">1.</span> <span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分类"><span class="post-toc-number">2.</span> <span class="post-toc-text">分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#监督学习"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">监督学习</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#无监督学习"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">无监督学习</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实现机器学习的步骤"><span class="post-toc-number">3.</span> <span class="post-toc-text">实现机器学习的步骤</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基本术语"><span class="post-toc-number">4.</span> <span class="post-toc-text">基本术语</span></a></li></ol>
 </div>
 <!--<div class="post-back"><i class="material-icons">arrow_back</i></div>-->
 <script type="text/javascript">
