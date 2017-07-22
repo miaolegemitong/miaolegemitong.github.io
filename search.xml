@@ -11,7 +11,7 @@
 <p><br></p>
 <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>人工智能领域的先驱<a href="https://en.wikipedia.org/wiki/Arthur_Samuel" target="_blank" rel="external">Arthur Samuel</a>给机器学习的定义如下：</p>
 <blockquote>
-<p>the field of study that gives computers the ability to learn without being explicitly programmed.<br>给计算机学习的能力，而不用明确地编程。</p>
+<p>the field of study that gives computers the ability to learn without being explicitly programmed.<br>不显示编程地赋予计算机能力的研究领域。</p>
 </blockquote>
 <p>卡内基梅隆大学计算机科学学院机器学习系主任<a href="http://www.cs.cmu.edu/~tom/" target="_blank" rel="external">Tom Mitchell</a>给了一个更加形式化的定义：</p>
 <blockquote>
@@ -25,7 +25,13 @@
 <h4 id="实现机器学习的步骤"><a href="#实现机器学习的步骤" class="headerlink" title="实现机器学习的步骤"></a>实现机器学习的步骤</h4><ol><br><li>得到一个有限的训练数据集合</li><br><li>确定包含所有可能的模型的假设空间，即学习模型的集合</li><br><li>确定模型选择的准则，即学习的策略</li><br><li>实现求解最优模型的算法，即学习的算法</li><br><li>通过学习方法选择最优模型</li><br><li>利用学习的最优模型对新数据进行预测或分析</li><br></ol>
 
 <p><br></p>
-<h4 id="基本术语"><a href="#基本术语" class="headerlink" title="基本术语"></a>基本术语</h4><ol><br><li><strong>数据集</strong>(data set): 用于训练的所有记录的集合</li><br><li><strong>示例</strong>(instance)、<strong>样本</strong>(sample): 一条记录</li><br><li><strong>属性</strong>(attribute)、<strong>特征</strong>(feature): 反应事件或对象在某方面的表现或性质的事项</li><br><li><strong>属性值</strong>(attribute value): 属性上的取值</li><br><li><strong>属性空间</strong>(attribute space)、<strong>样本空间</strong>(sample space)、<strong>输入空间</strong>: 属性张成的空间</li><br><li><strong>特征向量</strong>(feature vector): 把属性作为坐标轴，则会形成一个空间，每条记录都会找到坐标位置，所以每个点对应一个坐标向量</li><br><li><strong>维数</strong>(dimensionality): 示例的属性的个数</li><br><li><strong>学习</strong>(learning)、<strong>训练</strong>(training): 从数据中学得模型的过程</li><br><li><strong>训练数据</strong>(training data): 训练中使用的数据</li><br><li><strong>训练样本</strong>(training sample): 训练数据中的一个样本</li><br><li><strong>训练集</strong>(training set): 训练样本组成的集合</li><br><li><strong>假设</strong>(hypothesis): 学得模型对应了关于数据的某种潜在的规律</li><br><li><strong>真相</strong>、<strong>真实</strong>(ground-truth): 潜在规律自身</li><br><li><strong>标记</strong>(label): 关于示例结果的信息</li><br><li><strong>样例</strong>(example): 拥有了标记信息的示例</li><br><li><strong>标记空间</strong>(label space)、<strong>输出空间</strong>: 所有标记的集合</li><br><li><strong>分类</strong>(classification): 预测离散值的学习任务</li><br><li><strong>回归</strong>(regression): 预测连续值得学习任务</li><br><li><strong>测试</strong>(testing): 使用模型进行预测的过程</li><br><li><strong>测试样本</strong>(testing sample): 被预测的样本</li><br><li><strong>聚类</strong>(clustering): 将训练集中的记录分组的学习任务</li><br><li><strong>簇</strong>(cluster): 聚类中的每个组</li><br><li><strong>监督学习</strong>(supervised learning)</li><br><li><strong>无监督学习</strong>(unsupervised learning)</li><br><li><strong>泛化</strong>(generalization)： 学得模型适用于新样本</li><br></ol><br><br><br>#### 符号表示<br><ol><br><li><strong>(x, y)</strong> 表示 一个训练样本</li><br><li><strong>(x<sup>(i)</sup>, y<sup>(i)</sup>)</strong> 表示 第i个训练样本</li><br><li>数据集 <strong>D = {(x<sup>(1)</sup>, y<sup>(1)</sup>), (x<sup>(1)</sup>, y<sup>(1)</sup>), …, (x<sup>(m)</sup>, y<sup>(m)</sup>)}</strong></li><br><li><strong>m</strong> 表示 训练样本的个数</li><br><li>第i个特征向量 <strong>x<sup>(i)</sup> = (x<sup>(i)</sup><sub>1</sub>, x<sup>(i)</sup><sub>2</sub>, …, x<sup>(i)</sup><sub>n</sub>)<sup>T</sup></strong> 其中下标表示第几个特征值</li><br><li><strong>n</strong> 表示特征的个数</li><br></ol>
+<h4 id="基本术语"><a href="#基本术语" class="headerlink" title="基本术语"></a>基本术语</h4><ol><br><li><strong>数据集</strong>(data set): 用于训练的所有记录的集合</li><br><li><strong>示例</strong>(instance)、<strong>样本</strong>(sample): 一条记录</li><br><li><strong>属性</strong>(attribute)、<strong>特征</strong>(feature): 反应事件或对象在某方面的表现或性质的事项</li><br><li><strong>属性值</strong>(attribute value): 属性上的取值</li><br><li><strong>属性空间</strong>(attribute space)、<strong>样本空间</strong>(sample space)、<strong>输入空间</strong>: 属性张成的空间</li><br><li><strong>特征向量</strong>(feature vector): 把属性作为坐标轴，则会形成一个空间，每条记录都会找到坐标位置，所以每个点对应一个坐标向量</li><br><li><strong>维数</strong>(dimensionality): 示例的属性的个数</li><br><li><strong>学习</strong>(learning)、<strong>训练</strong>(training): 从数据中学得模型的过程</li><br><li><strong>训练数据</strong>(training data): 训练中使用的数据</li><br><li><strong>训练样本</strong>(training sample): 训练数据中的一个样本</li><br><li><strong>训练集</strong>(training set): 训练样本组成的集合</li><br><li><strong>假设</strong>(hypothesis): 学得模型对应了关于数据的某种潜在的规律</li><br><li><strong>真相</strong>、<strong>真实</strong>(ground-truth): 潜在规律自身</li><br><li><strong>标记</strong>(label): 关于示例结果的信息</li><br><li><strong>样例</strong>(example): 拥有了标记信息的示例</li><br><li><strong>标记空间</strong>(label space)、<strong>输出空间</strong>: 所有标记的集合</li><br><li><strong>分类</strong>(classification): 预测离散值的学习任务</li><br><li><strong>回归</strong>(regression): 预测连续值得学习任务</li><br><li><strong>测试</strong>(testing): 使用模型进行预测的过程</li><br><li><strong>测试样本</strong>(testing sample): 被预测的样本</li><br><li><strong>聚类</strong>(clustering): 将训练集中的记录分组的学习任务</li><br><li><strong>簇</strong>(cluster): 聚类中的每个组</li><br><li><strong>监督学习</strong>(supervised learning)</li><br><li><strong>无监督学习</strong>(unsupervised learning)</li><br><li><strong>泛化</strong>(generalization)： 学得模型适用于新样本</li><br><li><strong>假设空间</strong>(hypothesis space): 所有假设组成的空间</li><br><li><strong>版本空间</strong>(version space): 与训练集一致的假设的集合</li><br></ol>
+
+<p><br></p>
+<h4 id="符号表示"><a href="#符号表示" class="headerlink" title="符号表示"></a>符号表示</h4><ol><br><li><strong>(x, y)</strong> 表示 一个训练样本</li><br><li><strong>(x<sup>(i)</sup>, y<sup>(i)</sup>)</strong> 表示 第i个训练样本</li><br><li>数据集 <strong>D = {(x<sup>(1)</sup>, y<sup>(1)</sup>), (x<sup>(1)</sup>, y<sup>(1)</sup>), …, (x<sup>(m)</sup>, y<sup>(m)</sup>)}</strong></li><br><li><strong>m</strong> 表示 训练样本的个数</li><br><li>第i个特征向量 <strong>x<sup>(i)</sup> = (x<sup>(i)</sup><sub>1</sub>, x<sup>(i)</sup><sub>2</sub>, …, x<sup>(i)</sup><sub>n</sub>)<sup>T</sup></strong> 其中下标表示第几个特征值</li><br><li><strong>n</strong> 表示特征的个数</li><br></ol>
+
+<p><br></p>
+<h4 id="归纳偏好"><a href="#归纳偏好" class="headerlink" title="归纳偏好"></a>归纳偏好</h4><p><strong>归纳偏好</strong>(inductive bias): 机器学习算法爱学习过程中对某种类型假设的偏好。<br>任何一个有效的机器学习算法必有其归纳偏好，否则它将被假设空间中看似在训练集上“等效”的假设所迷惑，而无法产生确定的学习结果。<br><img src="/images/inductive-bias.png" alt=""><br><strong>“奥卡姆剃刀”</strong>(Occam’s razor): 若有多个假设与观察一致，则选<strong>最简单</strong>的那个。<br><strong>”没有免费的午餐”定理</strong>(No Free Lunch Theorem, NFL): 多个学习算法的<strong>期望性能</strong>相同。但是NFL定理有一个<strong>重要前提</strong>：所有“问题”出现的机会相同、或所有问题同等重要。<br>所以，<strong>脱离具体问题</strong>，空泛地谈论“什么学习算法更好”<strong>毫无意义</strong>。</p>
 ]]></content>
       
         <categories>
@@ -125,14 +131,14 @@ Hello    2
   
     
     <entry>
-      <title><![CDATA[friends]]></title>
-      <url>/friends/index.html</url>
+      <title><![CDATA[photo]]></title>
+      <url>/photo/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[photo]]></title>
-      <url>/photo/index.html</url>
+      <title><![CDATA[friends]]></title>
+      <url>/friends/index.html</url>
       <content type="html"></content>
     </entry>
     
