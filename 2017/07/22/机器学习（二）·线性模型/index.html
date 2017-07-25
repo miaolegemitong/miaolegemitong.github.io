@@ -136,69 +136,55 @@
   <div id="content-inner">
     
 <article id="post">
-  <div class="post-page-title" style="background-color:#26A69A;background-image:url(/images/spark.jpg)" >
-  <h2>在Docker中运行Hadoop+Spark集群</h2>
+  <div class="post-page-title" style="background-color:#26A69A;background-image:url(/images/linear.jpg)" >
+  <h2>机器学习（二）·线性模型</h2>
     
-  <p>作者:米叔 &nbsp&nbsp 发布于:<time datetime="2017-07-18T17:47:26.000Z">
-          2017-07-19
+  <p>作者:米叔 &nbsp&nbsp 发布于:<time datetime="2017-07-22T12:40:57.000Z">
+          2017-07-22
     </time>
   </p>
     
   </div>
   <div class="post-page-content">
-  <blockquote>
-<p>大数据环境搭建一直是令初学者头疼的事情，提高了大数据学习入门的成本。<br>环境搭建主要有单机模式、伪分布式模式、完全分布式模式。<br>三种环境搭建成本高，换机器的话还要重新配置，不仅麻烦，还容易出错。<br>Docker是一种容器，能够在不同的机器上很方便的运行统一的环境。<br>于是米叔基于kiwenlau/hadoop:1.0（一个已经开发好的完全分布式Hadoop in Docker环境）开发了运行Hadoop+Spark完全分布式部署的Docker镜像。<br>Hadoop配置请参考<a href="https://github.com/kiwenlau/hadoop-cluster-docker" target="_blank" rel="external">hadoop-cluster-docker</a>。</p>
+  <h4 id="基本形式"><a href="#基本形式" class="headerlink" title="基本形式"></a>基本形式</h4><p>给定由n个特征描述的示例 <strong>x</strong> = (x<sub>1</sub>, x<sub>2</sub>, …, x<sub>n</sub>)，其中x<sub>i</sub>是<strong>x</strong>在第i个属性上的取值。<br><strong>线性模型</strong>(linear model)试图学得一个通过属性的线性组合来进行预测的函数，即</p>
+<blockquote>
+<p><strong>h<sub>θ</sub>(x)</strong> = θ<sub>0</sub> + θ<sub>1</sub>x<sub>1</sub> + θ<sub>2</sub>x<sub>2</sub> + … + θ<sub>n</sub>x<sub>n</sub></p>
 </blockquote>
 <p><br></p>
-<h5 id="3节点集群"><a href="#3节点集群" class="headerlink" title="3节点集群"></a>3节点集群</h5><p><br></p>
-<h6 id="拉取Docker镜像"><a href="#拉取Docker镜像" class="headerlink" title="拉取Docker镜像"></a>拉取Docker镜像</h6><pre><code>docker pull miaolegemitong/spark:1.0
-</code></pre><p><br></p>
-<h6 id="克隆git仓库"><a href="#克隆git仓库" class="headerlink" title="克隆git仓库"></a>克隆git仓库</h6><pre><code>git clone git@github.com:miaolegemitong/spark-docker.git
-</code></pre><p><br></p>
-<h6 id="创建网络"><a href="#创建网络" class="headerlink" title="创建网络"></a>创建网络</h6><pre><code>sudo docker network create --driver=bridge hadoop
-</code></pre><p><br></p>
-<h6 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h6><p>这里需要把<strong>想要运行的jar包</strong>的路径作为第一个参数传递，之后这个路径会被挂载到master容器的<strong>/root/jars</strong>目录。</p>
-<pre><code>cd spark-docker
-sudo ./start-container.sh &lt;your jars path&gt;
-</code></pre><p>output:</p>
-<pre><code>start master container...
-start slave1 container...
-start slave2 container...
-root@hadoop-master:~#
-</code></pre><ol>
-<li>启动了1个master、2个slave的Hadoop集群</li>
-<li>启动了1个master、3个slave(master机器也作为slave使用）的Spark集群</li>
-<li>之后进入hadoop-master容器的/root目录<br><br></li>
-</ol>
-<h6 id="启动Hadoop"><a href="#启动Hadoop" class="headerlink" title="启动Hadoop"></a>启动Hadoop</h6><pre><code>./start-hadoop.sh
-</code></pre><p><br></p>
-<h6 id="运行Hadoop-word-count"><a href="#运行Hadoop-word-count" class="headerlink" title="运行Hadoop word count"></a>运行Hadoop word count</h6><pre><code>./run-wordcount.sh
-</code></pre><p>output:</p>
-<pre><code>input file1.txt:
-Hello Hadoop
-
-input file2.txt:
-Hello Docker
-
-wordcount output:
-Docker    1
-Hadoop    1
-Hello    2
-</code></pre><p><br></p>
-<h6 id="启动Spark"><a href="#启动Spark" class="headerlink" title="启动Spark"></a>启动Spark</h6><pre><code>./start-spark.sh
-</code></pre><p><br></p>
-<h5 id="任意个数节点的集群"><a href="#任意个数节点的集群" class="headerlink" title="任意个数节点的集群"></a>任意个数节点的集群</h5><p><br></p>
-<h6 id="拉取docker镜像，克隆git仓库"><a href="#拉取docker镜像，克隆git仓库" class="headerlink" title="拉取docker镜像，克隆git仓库"></a>拉取docker镜像，克隆git仓库</h6><p>重复3节点集群中的1-3步<br><br></p>
-<h6 id="重新build-docker镜像"><a href="#重新build-docker镜像" class="headerlink" title="重新build docker镜像"></a>重新build docker镜像</h6><pre><code>./resize-cluster.sh 5
-</code></pre><ol>
-<li>指定大于3的参数</li>
-<li>脚本将重写不同的<strong>slaves</strong>文件<br><br></li>
-</ol>
-<h6 id="启动容器-1"><a href="#启动容器-1" class="headerlink" title="启动容器"></a>启动容器</h6><pre><code>sudo ./start-container.sh &lt;your jars path&gt; 5
-</code></pre><p>使用和第2步相同的参数</p>
+<h4 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><blockquote>
+<p>给定数据集D = {(x(1), y(1)), (x(1), y(1)), …, (x(m), y(m))}，**“线性回归”(linear regression)试图学得一个线性模型以尽可能准确地预测实值输出标记。</p>
+</blockquote>
 <p><br></p>
-<h6 id="启动Hadoop和Spark集群"><a href="#启动Hadoop和Spark集群" class="headerlink" title="启动Hadoop和Spark集群"></a>启动Hadoop和Spark集群</h6><p>和3节点中第5-7步一致</p>
-
+<h5 id="属性值的表示"><a href="#属性值的表示" class="headerlink" title="属性值的表示"></a>属性值的表示</h5><ol>
+<li>若属性值间存在“序”关系，可通过连续化将其转化为连续值。<pre><code>例如，三值属性“高度”的取值“高”“中”“低”可转化为{1.0,0.5,0.0}
+</code></pre></li>
+<li>若属性值间不存在“序”关系，假定有k个属性值，则通常转化为k维向量。<pre><code>例如，属性“类别”的取值“男”“女”“不明”可转化为(0,0,1),(0,1,0),(1,0,0)
+</code></pre></li>
+</ol>
+<p><br></p>
+<h5 id="单元线性回归-Linear-Regression-with-One-Variable"><a href="#单元线性回归-Linear-Regression-with-One-Variable" class="headerlink" title="单元线性回归(Linear Regression with One Variable)"></a>单元线性回归(Linear Regression with One Variable)</h5><h6 id="假设函数-hypothesis-function"><a href="#假设函数-hypothesis-function" class="headerlink" title="假设函数(hypothesis function)"></a>假设函数(hypothesis function)</h6><blockquote>
+<p><strong>h<sub>θ</sub>(x)</strong> = θ<sub>0</sub> + θ<sub>1</sub>x</p>
+</blockquote>
+<p><br></p>
+<h6 id="代价函数-cost-function"><a href="#代价函数-cost-function" class="headerlink" title="代价函数(cost function)"></a>代价函数(cost function)</h6><p>也称平方误差函数。</p>
+<p><img src="/images/cost-function-regression-one-variable.jpeg" alt=""></p>
+<p>最小化代价函数的值，以求出最合适的θ<sub>0</sub>和θ<sub>1</sub>。</p>
+<p><br></p>
+<h6 id="梯度下降算法-Gradient-Descent"><a href="#梯度下降算法-Gradient-Descent" class="headerlink" title="梯度下降算法(Gradient Descent)"></a>梯度下降算法(Gradient Descent)</h6><p>代价函数J( θ<sub>0</sub>, θ<sub>1</sub>)是关于θ<sub>0</sub>和θ<sub>1</sub>的凸函数，当代价函数的值下降到最低点时，得到θ<sub>0</sub>和θ<sub>1</sub>的最优解。</p>
+<blockquote>
+<p>凸函数：对区间[a,b]上定义的函数f，若它对区间中任意两点x<sub>1</sub>,x<sub>2</sub>均有f((x<sub>1</sub> + x<sub>2</sub>) / 2) ≤ (f(x<sub>1</sub>) + f(x<sub>2</sub>)) / 2，则称f为区间[a,b]上的凸函数。</p>
+</blockquote>
+<p>梯度下降的过程：</p>
+<blockquote>
+<p>重复以下计算，直到代价函数收敛<br>对j=0和j=1,<br>θ<sub>j</sub> := θ<sub>j</sub> - α(∂/∂θ<sub>j</sub>)J(θ<sub>0</sub>, θ<sub>1</sub>)<br>其中：</p>
+<ol>
+<li>α为<strong>学习速率</strong>(learning rate)</li>
+<li>需要同时更新θ<sub>0</sub>和θ<sub>1</sub></li>
+<li>偏导数项<br> 对j = 0，∂/∂θ<sub>0</sub>J(θ<sub>0</sub>, θ<sub>1</sub>) = ∂/∂θ<sub>0</sub>(1/2m)</li>
+</ol>
+</blockquote>
+<p><br></p>
+<h5 id="多元线性回归-Multivariate-Linear-Regression"><a href="#多元线性回归-Multivariate-Linear-Regression" class="headerlink" title="多元线性回归(Multivariate Linear Regression)"></a>多元线性回归(Multivariate Linear Regression)</h5><h5 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h5>
   </div>
   <!--评论块-->
     
@@ -232,19 +218,19 @@ Hello    2
 <nav class="post-nav">
   <!-- Prev Nav -->
     
-  <a href="/2017/07/21/机器学习（一）·基础概念/" id="post_nav-newer" class="post-nav-content prev-content">
-      新篇
-  </a>
-    
 
 
   <!-- Next Nav -->
+    
+  <a href="/2017/07/21/机器学习（一）·基础概念/" id="post_nav-older" class="post-nav-content next-content">
+      旧篇
+  </a>
     
 </nav>
 <div class="post-toc-btn"><i class="material-icons">format_list_numbered</i></div>
 <div class="post-toc-none"><p>(无)</p></div>
 <div class="post-toc-box">
-    <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3节点集群"><span class="post-toc-number">1.</span> <span class="post-toc-text">3节点集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#拉取Docker镜像"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">拉取Docker镜像</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#克隆git仓库"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">克隆git仓库</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#创建网络"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">创建网络</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动容器"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">启动容器</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动Hadoop"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">启动Hadoop</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#运行Hadoop-word-count"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">运行Hadoop word count</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动Spark"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">启动Spark</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#任意个数节点的集群"><span class="post-toc-number">2.</span> <span class="post-toc-text">任意个数节点的集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#拉取docker镜像，克隆git仓库"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">拉取docker镜像，克隆git仓库</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#重新build-docker镜像"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">重新build docker镜像</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动容器-1"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">启动容器</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动Hadoop和Spark集群"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">启动Hadoop和Spark集群</span></a></li></ol></li></ol>
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基本形式"><span class="post-toc-number">1.</span> <span class="post-toc-text">基本形式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#线性回归"><span class="post-toc-number">2.</span> <span class="post-toc-text">线性回归</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#定义"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#属性值的表示"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">属性值的表示</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#单元线性回归-Linear-Regression-with-One-Variable"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">单元线性回归(Linear Regression with One Variable)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#假设函数-hypothesis-function"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">假设函数(hypothesis function)</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代价函数-cost-function"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">代价函数(cost function)</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#梯度下降算法-Gradient-Descent"><span class="post-toc-number">2.3.3.</span> <span class="post-toc-text">梯度下降算法(Gradient Descent)</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#多元线性回归-Multivariate-Linear-Regression"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">多元线性回归(Multivariate Linear Regression)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#未完待续"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">未完待续</span></a></li></ol></li></ol>
 </div>
 <!--<div class="post-back"><i class="material-icons">arrow_back</i></div>-->
 <script type="text/javascript">
